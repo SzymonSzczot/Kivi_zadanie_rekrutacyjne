@@ -19,6 +19,7 @@ from .serializers import (
 	PostSerializer
 )
 
+
 @csrf_exempt
 def register(request):
 	username = request.POST['login']
@@ -30,6 +31,7 @@ def register(request):
 	except django.db.utils.IntegrityError:
 		response = JsonResponse({"MyUser": "Already exists"})
 		response.status_code = 403
+
 
 @csrf_exempt
 def login_user(request):
@@ -136,23 +138,26 @@ def page_list(request):
 
 		serializer1 = PostSerializer(posts, many=True)
 		serializer2 = CourseSerializer(courses, many=True)
-		serializer3 = UserSerializer(users, many=True)
 		return JsonResponse(serializer1.data
 		                    + serializer2.data
-		                    # + serializer3.data
 		                    , safe=False)
 
 
 def filter_courses_by_level(request, level):
 	if request.method == 'GET':
-		usr = request.user.is_authenticated
-		print(request.user.get_username)
 		posts = Post.objects.all()
-		courses = Course.objects.filter(level=level)
+
+		print(OwnedCourses.objects.all())
+
+		crs_list = []
+
+		for c in OwnedCourses.objects.all():
+			crs_list.append(c.Course.name)
+
+		courses = Course.objects.filter(name__in=crs_list).filter(level=level)
 
 		serializer1 = PostSerializer(posts, many=True)
 		serializer2 = CourseSerializer(courses, many=True)
-		# serializer3 = MyUserSerializer(users, many=True)
-		return JsonResponse(serializer1.data + serializer2.data,
-		                    # + serializer3.data,
-		                    safe=False)
+		return JsonResponse(serializer1.data
+		                    + serializer2.data
+		                    , safe=False)
