@@ -1,2 +1,2 @@
-djnago
-djangorestframework
+django==2.2.6
+djangorestframework==3.11

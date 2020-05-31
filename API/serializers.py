@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Course, Post
+from .models import MyUser, Course, Post
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -11,11 +11,11 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = MyUser
         fields = ['id', 'first_name', 'last_name']
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['User', 'Course', 'body', 'stars']
+        fields = ['MyUser', 'Course', 'body', 'stars']

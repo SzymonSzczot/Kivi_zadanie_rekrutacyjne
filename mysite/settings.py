@@ -25,9 +25,9 @@ SECRET_KEY = ')nx(em1=ju6z05(r37ncw+7!y_7)*dtu%92302!9)eg%n+*y-p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.117', 'localhost',
-                 '127.0.0.1', '192.168.101.235',
-                 '192.168.0.108', '*']
+ALLOWED_HOSTS = ['localhost',
+                 '127.0.0.1',
+                 '*']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -87,8 +87,8 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'database',
         'USER': 'postgres',
         'PASSWORD': 'admin',
         'HOST': 'localhost',

@@ -1,10 +1,10 @@
 from django.db import models
 # Create your models here.
+from django.contrib.auth.models import User
+from django.contrib.auth.base_user import BaseUserManager
 
 
-class User(models.Model):
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+class MyUser(User):
     prof_pic = models.CharField(max_length=128)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,7 +18,7 @@ LEVELS = [
 
 
 class Course(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     level = models.CharField(choices=LEVELS, default='unassigned', max_length=100)
     time_needed = models.PositiveIntegerField()
     price = models.FloatField()
@@ -32,7 +32,7 @@ class Course(models.Model):
 
 
 class OwnedCourses(models.Model):
-    User = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="user")
+    MyUser = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING, verbose_name="user")
     Course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, verbose_name="course")
     price = models.PositiveIntegerField()
     progress = models.PositiveIntegerField()
@@ -42,7 +42,7 @@ class OwnedCourses(models.Model):
 
 
 class Post(models.Model):
-    User = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="user")
+    MyUser = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING, verbose_name="user")
     Course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, verbose_name="course")
     stars = models.PositiveIntegerField()
     body = models.CharField(max_length=512)
